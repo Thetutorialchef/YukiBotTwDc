@@ -1,0 +1,22 @@
+{
+    "auth": {
+        "bot_token": ""
+    },
+    "twitch": {
+        "discord_announce_channel": "texten",
+        "twitch_client_id": "",
+        "twitch_check_interval_ms": 60000,
+        "twitch_channels": "The_Tutorial_Chef",
+        "twitch_client_secret" : ""
+    },
+    "bot_settings": {
+        "status": "Hi!",
+        "prefix": {
+            "command_prefix": "!",
+            "mod_prefix": "~"
+        },
+        "moderator_roles": [
+            "Moderator"
+        ]
+    }
+}
