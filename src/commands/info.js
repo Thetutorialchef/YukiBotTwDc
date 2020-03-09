@@ -1,9 +1,9 @@
 "use strict";
 
 exports.run = (client, message, args, callback) => {
-   // message.react("✉");
+    // message.react("✉");
     message.author.send(
-       "Info Command"
+        "Info Command"
     );
 
     return callback();
