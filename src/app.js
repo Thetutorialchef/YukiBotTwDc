@@ -7,7 +7,9 @@ let Discord = require("discord.js");
 let conf = require("./utils/configParser");
 let log = require("./utils/logger");
 
+// Handler
 let messageHandler = require("./handler/msgHandler");
+let TwitchWatcher = require("./handler/twitchWatcher");
 
 let version = conf.getVersion();
 let appname = conf.getName();
@@ -27,6 +29,7 @@ log.done("Started.");
 
 const config = conf.getConfig();
 const client = new Discord.Client();
+const twitchWatcher = new TwitchWatcher(client);
 
 process.on("unhandledRejection", (err, promise) => log.error(`Unhandled rejection (promise: ${promise}, reason: ${err})`));
 
@@ -34,6 +37,11 @@ client.on("ready", () => {
     log.info("Running...");
     log.info(`Got ${client.users.cache.size} users, in ${client.channels.cache.size} channels of ${client.guilds.cache.size} guilds`);
     client.user.setActivity(config.bot_settings.status);
+
+    twitchWatcher.startWatcher((err) => {
+        if (err) return log.error(err);
+        return log.done("Started watcher.");
+    });
 });
 
 client.on("guildCreate", guild => log.info(`New guild joined: ${guild.name} (id: ${guild.id}) with ${guild.memberCount} members`));
