@@ -1,5 +1,14 @@
 "use strict";
 
+// ========================= //
+// = Copyright (c) NullDev = //
+// ========================= //
+
+/**
+ * Formats the current time
+ *
+ * @returns {string} Time
+ */
 let getDate = function(){
     const date = new Date();
     let hourData = date.getHours();

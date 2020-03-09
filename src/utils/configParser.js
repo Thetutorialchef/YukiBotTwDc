@@ -1,34 +1,55 @@
 "use strict";
-let fs = require('fs');
+
+// ========================= //
+// = Copyright (c) NullDev = //
+// ========================= //
+
+// Core Modules
+let fs = require("fs");
 let path = require("path");
 
-let log = require('../util/logger');
+// Utils
+let log = require("./logger");
 
 const packagefile = require(path.resolve("package.json"));
-const config = path.resolve("config.json");
+const configPath  = path.resolve("config.json");
 
-let validJson = function(obj) {
+/**
+ * Check if the config is valid JSON
+ *
+ * @param {*} obj
+ * @returns {boolean} whether it is valid JSON
+ */
+let validJson = function(obj){
     try {
         JSON.parse(obj);
-    } catch(e){
+    }
+    catch (e){
         return false;
     }
     return true;
-
 };
 
-let getconfig = function() {
-    if(!fs.existsSync(config)){
+/**
+ * Reads out config data
+ *
+ * @returns {object} JSON Content
+ */
+let getconfig = function(){
+    if (!fs.existsSync(configPath)){
         log.error("Config does not exist! Make sure you copy config.template.json and paste it as 'config.json'. Then configure it.");
         process.exit(1);
     }
-    let jsondata ="";
+
+    let jsondata = "";
     try {
-        jsondata = String(fs.readFileSync(config));
-    }catch(e){
-        log.error(`Cannot read config gile : ${e}`);
+        jsondata = String(fs.readFileSync(configPath));
+    }
+    catch (e){
+        log.error(`Cannot read config file: ${e}`);
         process.exit(1);
     }
+
     if (validJson(jsondata)) return JSON.parse(jsondata);
 
     log.error("Config is not valid JSON. Stopping...");
