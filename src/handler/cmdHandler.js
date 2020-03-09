@@ -1,16 +1,33 @@
 "use strict";
+
+// ========================= //
+// = Copyright (c) NullDev = //
+// ========================= //
+
+// Core Modules
 let fs = require("fs");
 let path = require("path");
-let log = require("../util/logger");
-let config = require("./configHandler").getConfig();
 
+// Utils
+let log = require("../utils/logger");
+let config = require("../utils/configParser").getConfig();
+
+/**
+ * Passes commands to the correct executor
+ *
+ * @param {*} message
+ * @param {*} client
+ * @param {*} isModCommand
+ * @param {*} callback
+ * @returns {*} callback
+ */
 let commandHandler = function(message, client, isModCommand, callback){
     let cmdPrefix = isModCommand ? config.bot_settings.prefix.mod_prefix : config.bot_settings.prefix.command_prefix;
     let args = message.content.slice(cmdPrefix.length).trim().split(/ +/g);
     let command = args.shift().toLowerCase();
 
     let commandArr = [];
-    let commandDir = isModCommand ? path.resolve("./commands/modcommands") : path.resolve("./commands");
+    let commandDir = isModCommand ? path.resolve("./src/commands/modcommands") : path.resolve("./src/commands");
 
     fs.readdirSync(commandDir).forEach(file => {
         let cmdPath = path.resolve(commandDir, file);

@@ -1,9 +1,22 @@
 "use strict";
 
-let config = require('./configHandler').getConfig();
-let cmdHandler = require('./cmdHandler');
-   
+// ========================= //
+// = Copyright (c) NullDev = //
+// ========================= //
 
+// Utils
+let config = require("../utils/configParser").getConfig();
+
+// Handler
+let cmdHandler = require("./cmdHandler");
+
+/**
+ * Handles incomming messages
+ *
+ * @param {*} message
+ * @param {*} client
+ * @returns
+ */
 module.exports = function(message, client){
     let nonBiased = message.content
         .replace(config.bot_settings.prefix.command_prefix, "")
@@ -12,6 +25,14 @@ module.exports = function(message, client){
 
     if (message.author.bot || nonBiased === "" || message.channel.type === "dm") return;
 
+    /**
+     * cmdHandler Parameters:
+     *
+     * @param {*} message
+     * @param {*} client
+     * @param {*} isModCommand
+     * @param {*} callback
+     */
     if (message.content.indexOf(config.bot_settings.prefix.command_prefix) === 0){
         cmdHandler(message, client, false, (err) => {
             if (err) message.channel.send(err);
